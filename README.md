@@ -1,2 +1,1 @@
-# YADRO_test_task
-Repository for YADRO test task 
+# Author: Gotfrid Matvey
