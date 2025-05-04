@@ -22,7 +22,7 @@ int main() {
     } catch (const std::exception &e) {    
         std::cerr << e.what() << std::endl;
     }
-
+    channel.Transmit(symbols);
     auto trans_symbols = channel.Transmit(symbols);
     std::cout << "Transmitted symbols:" << std::endl;
     for (int i = 0; i < trans_symbols.size(); i++) {

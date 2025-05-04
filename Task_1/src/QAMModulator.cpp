@@ -7,11 +7,6 @@ Modulator::Modulator(bool normalize_flag): _normalize_flag(normalize_flag) {}
 
 Modulator::~Modulator() {}
 
-/*
-    Modulate input_bits to output_symbols
-    mode: 0 for QPSK, 1 for QAM16, 2 for QAM64
-    base modulation = QPSK
-*/
 void Modulator::Modulate(const BitVector_t &input_bits, ComplexVector_t &output_symbols, ModulationMode mode) {
     if (input_bits.empty()) {
         throw std::invalid_argument("Input bits cannot be empty");
@@ -31,10 +26,6 @@ void Modulator::Modulate(const BitVector_t &input_bits, ComplexVector_t &output_
     }
 }
 
-/*
-    QPSK Modulation
-    input_bits size must be even
-*/
 ComplexVector_t Modulator::QPSKModulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 2 != 0) {
         throw std::invalid_argument("Input bits must be even length");
@@ -51,10 +42,6 @@ ComplexVector_t Modulator::QPSKModulation(const BitVector_t &input_bits) {
     return output_symbols;
 }
 
-/*
-    QAM16 Modulation
-    input_bits size must be a multiple of 4
-*/
 ComplexVector_t Modulator::QAM16Modulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 4 != 0) {
         throw std::invalid_argument("Input bits must be a multiple of 4");
@@ -73,10 +60,6 @@ ComplexVector_t Modulator::QAM16Modulation(const BitVector_t &input_bits) {
     return output_symbols;
 }
 
-/*
-    QAM64 Modulation
-    input_bits size must be a multiple of 6
-*/
 ComplexVector_t Modulator::QAM64Modulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 6 != 0) {
         throw std::invalid_argument("Input bits must be a multiple of 6");

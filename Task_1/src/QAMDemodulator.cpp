@@ -75,7 +75,7 @@ BitVector_t Demodulator::QAM64Demodulation(const ComplexVector_t &input_symbols)
     const double denorm_factor = _normalize_flag ? 1.0/QAM64_NORM : 1.0;
     const double levels[8] = {-7, -5, -3, -1, 1, 3, 5, 7};
 
-    for (const auto& symbol : input_symbols) {
+    for (const auto &symbol : input_symbols) {
         double I = symbol.real() * denorm_factor;
         double Q = symbol.imag() * denorm_factor;
 
