@@ -4,13 +4,13 @@
 #include <complex>
 #include <vector>
 #include <random>
-#include <QAMModulator.hpp>
+#include <QAM.hpp>
 
 class AWGNChannel {
     public:
         AWGNChannel(double snr_db);
         ~AWGNChannel();
-        QAMModulation::ComplexVector_t Transmit(QAMModulation::ComplexVector_t symbols) const;
+        QAM::ComplexVector_t Transmit(QAM::ComplexVector_t symbols) const;
     private:
         double _snr_db;
         mutable std::mt19937 _generator;

@@ -1,29 +1,29 @@
-#include <QAMModulator.hpp>
+#include <QAM.hpp>
 #include <iostream>
 
-using namespace QAMModulation;
+using namespace QAM;
 
-QAMModulator::QAMModulator(bool normalize_flag): _normalize_flag(normalize_flag) {}
+Modulator::Modulator(bool normalize_flag): _normalize_flag(normalize_flag) {}
 
-QAMModulator::~QAMModulator() {}
+Modulator::~Modulator() {}
 
 /*
     Modulate input_bits to output_symbols
     mode: 0 for QPSK, 1 for QAM16, 2 for QAM64
     base modulation = QPSK
 */
-void QAMModulator::Modulate(const BitVector_t &input_bits, ComplexVector_t &output_symbols, ModulationMode mode) {
+void Modulator::Modulate(const BitVector_t &input_bits, ComplexVector_t &output_symbols, ModulationMode mode) {
     if (input_bits.empty()) {
         throw std::invalid_argument("Input bits cannot be empty");
     }
     switch (mode) { 
-        case QAMModulation::QPSK:
+        case QPSK:
             output_symbols = QPSKModulation(input_bits);
             break;
-        case QAMModulation::QAM16:
+        case QAM16:
             output_symbols = QAM16Modulation(input_bits);
             break;
-        case QAMModulation::QAM64:
+        case QAM64:
             output_symbols = QAM64Modulation(input_bits);
             break;
         default:
@@ -35,7 +35,7 @@ void QAMModulator::Modulate(const BitVector_t &input_bits, ComplexVector_t &outp
     QPSK Modulation
     input_bits size must be even
 */
-ComplexVector_t QAMModulator::QPSKModulation(const BitVector_t &input_bits) {
+ComplexVector_t Modulator::QPSKModulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 2 != 0) {
         throw std::invalid_argument("Input bits must be even length");
     }
@@ -55,7 +55,7 @@ ComplexVector_t QAMModulator::QPSKModulation(const BitVector_t &input_bits) {
     QAM16 Modulation
     input_bits size must be a multiple of 4
 */
-ComplexVector_t QAMModulator::QAM16Modulation(const BitVector_t &input_bits) {
+ComplexVector_t Modulator::QAM16Modulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 4 != 0) {
         throw std::invalid_argument("Input bits must be a multiple of 4");
     }
@@ -77,7 +77,7 @@ ComplexVector_t QAMModulator::QAM16Modulation(const BitVector_t &input_bits) {
     QAM64 Modulation
     input_bits size must be a multiple of 6
 */
-ComplexVector_t QAMModulator::QAM64Modulation(const BitVector_t &input_bits) {
+ComplexVector_t Modulator::QAM64Modulation(const BitVector_t &input_bits) {
     if (input_bits.size() % 6 != 0) {
         throw std::invalid_argument("Input bits must be a multiple of 6");
     }
@@ -88,9 +88,9 @@ ComplexVector_t QAMModulator::QAM64Modulation(const BitVector_t &input_bits) {
 
     const double levels[8] = {-7, -5, -3, -1, 1, 3, 5, 7};
 
-    for (size_t i = 0; i < input_bits.size(); i += 6) {
-        Bit_t i_bits = (input_bits[i] * 4) | (input_bits[i+1] * 2) | input_bits[i+2];
-        Bit_t q_bits = (input_bits[i+3] * 4) | (input_bits[i+4] * 2) | input_bits[i+5];
+    for (int i = 0; i < input_bits.size(); i += 6) {
+        u_int8_t i_bits = (input_bits[i] << 2) | (input_bits[i+1] << 1) | input_bits[i+2];
+        u_int8_t q_bits = (input_bits[i+3] << 2) | (input_bits[i+4] << 1) | input_bits[i+5];
         
         double I = levels[i_bits];
         double Q = levels[q_bits];
@@ -101,15 +101,11 @@ ComplexVector_t QAMModulator::QAM64Modulation(const BitVector_t &input_bits) {
     return output_symbols;
 }
 
-void QAMModulator::Log(const char *message) {
-    std::cout << message << std::endl;
-}
-
-void QAMModulator::ToggleNormalizeFlag() {
+void Modulator::ToggleNormalizeFlag() {
     _normalize_flag = !_normalize_flag;
 }
 
-void QAMModulator::Normalize(ComplexVector_t &input_symbols, double normalization_factor) {
+void Modulator::Normalize(ComplexVector_t &input_symbols, double normalization_factor) {
     if (normalization_factor == 1.0) {
         return;
     }
