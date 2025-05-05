@@ -74,7 +74,7 @@ void run_test_sequence(QAM::ModulationMode mode, size_t num_bits,
 
 int main() {
     const size_t num_bits = 1024;
-    const std::vector<double> noise_variances = {0.001, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5};
+    const std::vector<double> noise_variances = {0.001, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1.0};
     
     run_test_sequence(QAM::QPSK, num_bits, noise_variances);
     run_test_sequence(QAM::QAM16, num_bits, noise_variances);
