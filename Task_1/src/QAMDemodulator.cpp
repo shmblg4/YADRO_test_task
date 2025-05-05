@@ -28,7 +28,7 @@ void Demodulator::Demodulate(const ComplexVector_t &input_symbols, BitVector_t &
     }
 }
 
-BitVector_t Demodulator::QPSKDemodulation(const ComplexVector_t& input_symbols) {
+BitVector_t Demodulator::QPSKDemodulation(const ComplexVector_t &input_symbols) {
     if (input_symbols.size() == 0) {
         throw std::invalid_argument("Input symbols vector is empty");
     }
